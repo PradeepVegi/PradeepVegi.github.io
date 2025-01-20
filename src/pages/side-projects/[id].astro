@@ -1,0 +1,53 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { sideProjects } from '../../data/sideProjects';
+import '../../styles/typography.css';
+
+export function getStaticPaths() {
+    return sideProjects.map(project => ({
+        params: { id: project.id }
+    }));
+}
+
+const { id } = Astro.params;
+const project = sideProjects.find(p => p.id === id);
+---
+
+<Layout title={project.title}>
+    <div class="project-container">
+        <article class="project-content">
+            <h1 class="project-title">{project.title}</h1>
+            <p class="project-description">{project.description}</p>
+            <div class="project-details">
+                {project.content}
+            </div>
+        </article>
+    </div>
+</Layout>
+
+<style>
+    .project-container {
+        max-width: 1000px;
+        padding: 0 var(--space-lg);
+    }
+    .project-content {
+        background: var(--color-bg-secondary);
+        padding: var(--space-xl);
+        border-radius: 12px;
+    }
+    .project-title {
+        color: var(--color-text-primary);
+        font-size: 2rem;
+        margin-bottom: var(--space-md);
+    }
+    .project-description {
+        color: var(--color-text-secondary);
+        font-size: 1.2rem;
+        margin-bottom: var(--space-xl);
+    }
+    .project-details {
+        color: var(--color-text-secondary);
+        line-height: 1.8;
+        font-size: 1.1rem;
+    }
+</style>

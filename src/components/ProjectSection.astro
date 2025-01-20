@@ -1,0 +1,85 @@
+---
+interface Props {
+    id: string;
+    title: string;
+    content: string;
+    media?: {
+        type: 'image' | 'video';
+        data: any;
+    };
+}
+
+const { id, title, content, media } = Astro.props;
+---
+
+<section id={id} class="project-section">
+    <h2 class="section-title">{title}</h2>
+    
+    {media && media.type === 'image' && (
+        <div class="media-container">
+            <img 
+                src={media.data.src} 
+                alt={media.data.alt} 
+                class="section-image"
+            />
+            {media.data.caption && (
+                <p class="image-caption">{media.data.caption}</p>
+            )}
+        </div>
+    )}
+    
+    {media && media.type === 'video' && (
+        <div class="media-container">
+            <video 
+                class="section-video" 
+                controls 
+                autoplay 
+                loop 
+                muted 
+                playsinline
+            >
+                <source src={media.data.src} type={media.data.type} />
+            </video>
+        </div>
+    )}
+    
+    <p class="section-content">{content}</p>
+</section>
+
+<style>
+    .project-section {
+        margin-bottom: var(--space-xl);
+        scroll-margin-top: calc(var(--space-xl) * 2);
+        min-height: 60vh;
+        padding: var(--space-xl) 0;
+    }
+    .section-title {
+        color: var(--color-text-primary);
+        font-size: 1.75rem;
+        margin-bottom: var(--space-lg);
+        font-weight: var(--font-semibold);
+    }
+    .media-container {
+        margin: var(--space-lg) 0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .section-image,
+    .section-video {
+        width: 100%;
+        border-radius: 12px;
+    }
+    .image-caption {
+        color: var(--color-text-secondary);
+        font-size: 0.875rem;
+        margin-top: var(--space-sm);
+        text-align: center;
+        font-style: italic;
+    }
+    .section-content {
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+        font-size: var(--text-lg);
+        margin-top: var(--space-lg);
+    }
+</style>

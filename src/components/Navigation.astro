@@ -1,0 +1,83 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="sidebar">
+    <div class="nav-links">
+        <a href="/" class="logo">
+            <img src="https://media.tenor.com/lC_-eWxgepYAAAAM/pradeep.gif" alt="Pradeep" class="logo-image">
+        </a>
+        <div class="nav-section">
+            <h2 class="section-title">Selected Work</h2>
+            <ul class="project-list">
+                <li><a href="/projects/1" class="nav-item">Single Take</a></li>
+                <li><a href="/projects/2" class="nav-item">Healome</a></li>
+                <li><a href="/projects/3" class="nav-item">Message Center</a></li>
+                <li><a href="/projects/4" class="nav-item">AViD</a></li>
+            </ul>
+        </div>
+        <div class="nav-section">
+            <h2 class="section-title">Blogs</h2>
+            <ul class="project-list">
+                <li><a href="/blogs/design" class="nav-item">Design</a></li>
+                <li><a href="/blogs/ux-ai" class="nav-item">UX & AI</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<style>
+    .sidebar {
+        width: 250px;
+        background: #23262d;
+        padding: 2rem;
+        position: fixed;
+        height: 100vh;
+    }
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+    .logo {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    .logo-image {
+        display: block;
+        width: 120px;
+        height: auto;
+        margin: 0 auto;
+    }
+    .nav-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .nav-item {
+        color: white;
+        text-decoration: none;
+        font-size: 1.1rem;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    .nav-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .section-title {
+        color: #888;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.5rem;
+        padding-left: 0.5rem;
+    }
+    .project-list {
+        list-style: none;
+        margin-left: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+</style>

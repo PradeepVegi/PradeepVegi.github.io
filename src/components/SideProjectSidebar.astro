@@ -1,0 +1,64 @@
+---
+import { sideProjects } from '../data/sideProjects';
+import { isActiveLink } from '../utils/navigation';
+
+const allProjects = sideProjects.sort((a, b) => a.title.localeCompare(b.title));
+---
+
+<aside class="sideproject-sidebar">
+    <div class="sideproject-links">
+        {allProjects.map(project => {
+            const href = `/side-projects/${project.id}`;
+            return (
+                <a href={href} class={`sideproject-link ${isActiveLink(href) ? 'active' : ''}`}>
+                    <span class="sideproject-dot">•</span>
+                    {project.title}
+                </a>
+            );
+        })}
+    </div>
+</aside>
+
+<style>
+    .sideproject-sidebar {
+        width: 400px;
+        background: var(--color-bg-primary);
+        padding: var(--space-md);
+        position: fixed;
+        height: 100vh;
+        left: 250px;
+        border-right: 1px solid var(--color-bg-secondary);
+    }
+    .sideproject-links {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xs);
+        padding-top: var(--space-md);
+    }
+    .sideproject-link {
+        display: flex;
+        align-items: center;
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        padding: var(--space-sm) var(--space-md);
+        border-radius: 6px;
+        transition: var(--transition-default);
+        font-size: var(--text-lg);
+        font-weight: 500;
+    }
+    .sideproject-dot {
+        opacity: 0;
+        margin-right: var(--space-sm);
+        transition: var(--transition-default);
+    }
+    .sideproject-link:hover,
+    .sideproject-link.active {
+        color: var(--color-text-primary);
+        background-color: var(--color-bg-secondary);
+    }
+    .sideproject-link:hover .sideproject-dot,
+    .sideproject-link.active .sideproject-dot {
+        opacity: 1;
+        color: var(--color-accent);
+    }
+</style>

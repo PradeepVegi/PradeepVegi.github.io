@@ -1,0 +1,137 @@
+---
+import Navigation from '../components/Navigation/Navigation.astro';
+import BlogSidebar from '../components/BlogSidebar.astro';
+import BookSidebar from '../components/BookSidebar.astro';
+import SideProjectSidebar from '../components/SideProjectSidebar.astro';
+import ProjectSidebar from '../components/ProjectSidebar.astro';
+import '../styles/theme.css';
+
+interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+// Check if we're on a specific item page (e.g., /blogs/1, /bookshelf/2)
+const isSpecificItemPage = (path: string) => {
+    const segments = path.split('/');
+    return segments.length === 3 && !isNaN(Number(segments[2]));
+};
+
+// Check if we're on a category page (e.g., /blogs, /bookshelf)
+const isCategoryPage = (path: string) => {
+    const segments = path.split('/');
+    return segments.length === 2 && segments[1] !== '';
+};
+
+// Show sidebars by default for desktop
+const showBlogSidebar = currentPath.startsWith('/blogs');
+const showBookSidebar = currentPath.startsWith('/bookshelf');
+const showSideProjectSidebar = currentPath.startsWith('/side-projects');
+const showProjectSidebar = currentPath.startsWith('/projects');
+
+// For mobile, show content only on specific item pages
+const showContent = true;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Pradeep's Portfolio" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+        <script is:inline>
+            const theme = localStorage.getItem('theme') || 
+                         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.classList.add(theme === 'dark' ? 'dark-mode' : 'light-mode');
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <Navigation />
+            {showBlogSidebar && <BlogSidebar />}
+            {showBookSidebar && <BookSidebar />}
+            {showSideProjectSidebar && <SideProjectSidebar />}
+            {showProjectSidebar && <ProjectSidebar class="project-sidebar" />}
+            {showContent && (
+                <main class={`main-content ${showBlogSidebar || showBookSidebar || showSideProjectSidebar || showProjectSidebar ? 'with-sidebar' : ''}`}>
+                    <slot />
+                </main>
+            )}
+        </div>
+    </body>
+</html>
+
+<script>
+    function handleProjectSidebar() {
+        const isMobile = window.innerWidth <= 768;
+        const isProjectPage = window.location.pathname.startsWith('/projects');
+        const isSpecificProject = window.location.pathname.split('/').length === 3;
+        const projectSidebar = document.querySelector('.project-sidebar');
+        
+        if (projectSidebar) {
+            if (isMobile && isProjectPage && isSpecificProject) {
+                projectSidebar.style.display = 'none';
+                document.querySelector('.main-content')?.classList.remove('with-sidebar');
+            } else {
+                projectSidebar.style.display = '';
+                if (isProjectPage) {
+                    document.querySelector('.main-content')?.classList.add('with-sidebar');
+                }
+            }
+        }
+    }
+
+    // Run on load and resize
+    window.addEventListener('load', handleProjectSidebar);
+    window.addEventListener('resize', handleProjectSidebar);
+</script>
+
+<style is:global>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html {
+        font-family: var(--font-family);
+        background: var(--color-bg-primary);
+        color: var(--color-text-primary);
+    }
+    body.menu-open {
+        overflow: hidden;
+    }
+    .layout {
+        display: flex;
+        min-height: 100vh;
+    }
+    .main-content {
+        flex: 1;
+        margin-left: 250px;
+        padding: var(--space-lg);
+        background: var(--color-bg-primary);
+    }
+    .main-content.with-sidebar {
+        margin-left: 650px;
+        padding: var(--space-lg) 0;
+    }
+
+    @media (max-width: 768px) {
+        .main-content {
+            margin-left: 0;
+            padding: calc(var(--space-lg) + 60px) var(--space-lg);
+            width: 100%;
+        }
+        .main-content.with-sidebar {
+            margin-left: 0;
+            padding: calc(var(--space-lg) + 60px) var(--space-lg);
+        }
+        .layout {
+            flex-direction: column;
+        }
+    }
+</style>

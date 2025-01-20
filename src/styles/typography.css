@@ -1,0 +1,33 @@
+/* Typography styles */
+.page-title {
+  color: var(--color-accent);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-lg);
+}
+
+.section-heading {
+  color: var(--color-accent);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-md);
+}
+
+/* Text styles */
+p {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Link styles */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: var(--transition-default);
+}
+
+a:hover {
+  opacity: 0.8;
+}

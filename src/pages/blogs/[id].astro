@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogPost from '../../components/BlogPost.astro';
+import { blogContents } from '../../data/blogContent';
+import '../../styles/typography.css';
+
+export function getStaticPaths() {
+    return blogContents.map(blog => ({
+        params: { id: blog.id }
+    }));
+}
+
+const { id } = Astro.params;
+const blog = blogContents.find(b => b.id === id);
+---
+
+<Layout title={blog.title}>
+    <div class="blog-container">
+        <BlogPost {...blog} />
+    </div>
+</Layout>
+
+<style>
+    .blog-container {
+        max-width: 1000px;
+        padding: 0 var(--space-lg);
+    }
+</style>

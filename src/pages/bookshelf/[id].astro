@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BookHighlights from '../../components/BookHighlights.astro';
+import { books } from '../../data/books';
+import '../../styles/typography.css';
+
+export function getStaticPaths() {
+    return books.map(book => ({
+        params: { id: book.id }
+    }));
+}
+
+const { id } = Astro.params;
+const book = books.find(b => b.id === id);
+---
+
+<Layout title={book.title}>
+    <div class="book-container">
+        <BookHighlights {...book} />
+    </div>
+</Layout>
+
+<style>
+    .book-container {
+        max-width: 1000px;
+        padding: 0 var(--space-lg);
+    }
+</style>

@@ -1,0 +1,78 @@
+.project-card {
+    background: var(--color-bg-secondary);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.3s ease, opacity 0.6s ease;
+    opacity: 0;
+    transform: translateY(40px);
+    position: relative;
+    aspect-ratio: 3/4; /* Changed from 16/9 to make cards taller */
+}
+
+.project-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+}
+
+.gif-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.project-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.project-card:hover .project-gif {
+    filter: grayscale(0%);
+}
+
+.content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-lg); /* Increased padding */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+    border-radius: 0 0 12px 12px;
+}
+
+.title {
+    color: #f5f5f5;
+    font-size: 1.5rem; /* Increased font size */
+    margin-bottom: var(--space-sm); /* Increased margin */
+    font-weight: 600;
+}
+
+.description {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-md); /* Increased margin */
+    line-height: 1.5;
+    font-size: 1rem; /* Increased font size */
+}
+
+.tags {
+    display: flex;
+    gap: var(--space-sm); /* Increased gap */
+    flex-wrap: wrap;
+}
+
+.tag {
+    background: rgba(243, 243, 109, 0.1);
+    color: #F3F36D;
+    padding: var(--space-xs) var(--space-md); /* Increased padding */
+    border-radius: 4px;
+    font-size: 0.875rem; /* Increased font size */
+}

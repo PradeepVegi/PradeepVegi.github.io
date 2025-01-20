@@ -1,0 +1,93 @@
+---
+import { isActiveProject } from '../utils/activeState';
+
+interface Props {
+    title: string;
+    description: string;
+    id: string;
+    tags: string[];
+}
+
+const { title, description, id, tags } = Astro.props;
+
+const projectGifs = {
+    "1": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjFlbXpheGd3eXpkd243YmhvczFhbDlvdHEwdmxlNmIzMjV3NDJ2ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/XL1jaeMUP2jmolfMwZ/giphy.gif",
+    "2": "https://media.giphy.com/media/3o7aCTfyhYawdOXcFW/giphy.gif",
+    "3": "https://media.giphy.com/media/l0HlNaQ6gWfllcjDO/giphy.gif",
+    "4": "https://media.giphy.com/media/3o7btQ0NH6Kl8CxCfK/giphy.gif"
+};
+
+// Static images (first frame of GIFs)
+const staticImages = {
+    "1": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjFlbXpheGd3eXpkd243YmhvczFhbDlvdHEwdmxlNmIzMjV3NDJ2ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/XL1jaeMUP2jmolfMwZ/200_s.gif",
+    "2": "https://media.giphy.com/media/3o7aCTfyhYawdOXcFW/200_s.gif",
+    "3": "https://media.giphy.com/media/l0HlNaQ6gWfllcjDO/200_s.gif",
+    "4": "https://media.giphy.com/media/3o7btQ0NH6Kl8CxCfK/200_s.gif"
+};
+---
+
+<a href={`/projects/${id}`} class={`project-card ${isActiveProject(id) ? 'active' : ''}`}>
+    <div class="gif-container">
+        <img src={staticImages[id]} alt={title} class="project-gif static" />
+        <img src={projectGifs[id]} alt={title} class="project-gif animated" />
+    </div>
+    <div class="content">
+        <h3 class="title">{title}</h3>
+        <p class="description">{description}</p>
+        <div class="tags">
+            {tags.map(tag => (
+                <span class="tag">{tag}</span>
+            ))}
+        </div>
+        <button class="view-project">View Project</button>
+    </div>
+</a>
+
+<style>
+    @import '../styles/components/ProjectCard.css';
+
+    .project-card.active {
+        border: 2px solid #F3F36D;
+        transform: translateY(-4px);
+    }
+
+    .project-card.active .project-gif {
+        filter: grayscale(0%);
+    }
+
+    .project-card.active .view-project {
+        background: #F3F36D;
+        color: var(--color-bg-primary);
+    }
+
+    .gif-container {
+        position: relative;
+    }
+
+    .project-gif {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .project-gif.static {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+    .project-gif.animated {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .project-card:hover .project-gif.static {
+        opacity: 0;
+    }
+
+    .project-card:hover .project-gif.animated {
+        opacity: 1;
+    }
+</style>

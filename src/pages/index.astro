@@ -1,0 +1,361 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../styles/typography.css";
+import { projects } from "../data/projects";
+
+const featuredProjects = projects.slice(0, 4);
+
+const projectGifs = {
+  "1": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjFlbXpheGd3eXpkd243YmhvczFhbDlvdHEwdmxlNmIzMjV3NDJ2ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/XL1jaeMUP2jmolfMwZ/giphy.gif",
+  "2": "https://media.giphy.com/media/3o7aCTfyhYawdOXcFW/giphy.gif",
+  "3": "https://media.giphy.com/media/l0HlNaQ6gWfllcjDO/giphy.gif",
+  "4": "https://media.giphy.com/media/3o7btQ0NH6Kl8CxCfK/giphy.gif",
+};
+
+const staticImages = {
+  "1": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjFlbXpheGd3eXpkd243YmhvczFhbDlvdHEwdmxlNmIzMjV3NDJ2ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/XL1jaeMUP2jmolfMwZ/200_s.gif",
+  "2": "https://media.giphy.com/media/3o7aCTfyhYawdOXcFW/200_s.gif",
+  "3": "https://media.giphy.com/media/l0HlNaQ6gWfllcjDO/200_s.gif",
+  "4": "https://media.giphy.com/media/3o7btQ0NH6Kl8CxCfK/200_s.gif",
+};
+---
+
+<Layout title="Pradeep Vegireddi">
+  <div class="home">
+    <div class="content">
+      <div class="intro-block">
+        <div class="profile-image">
+          <img src="/public/images/profile_image.png" alt="Pradeep Vegireddi" />
+        </div>
+        <h1>Hi, I'm Pradeep - a product designer</h1>
+        <p>
+          Currently at <a
+            href="https://www.chase.com"
+            target="_blank"
+            rel="noopener noreferrer">Chase</a
+          >. Previously strategized driverless vehicle interactions for <a
+            href="https://torc.ai"
+            target="_blank"
+            rel="noopener noreferrer">Torc Robotics</a
+          >, designed for growth at <a
+            href="https://www.bryte.com/"
+            target="_blank"
+            rel="noopener noreferrer">Bryte Labs</a
+          >, founded design at <a
+            href="https://www.healome.com"
+            target="_blank"
+            rel="noopener noreferrer">Healome</a
+          >, and crafted AI-driven camera experiences at <a
+            href="https://research.samsung.com"
+            target="_blank"
+            rel="noopener noreferrer">Samsung</a
+          >.
+        </p>
+      </div>
+
+      <div class="projects-container">
+        <div class="projects">
+          {
+            featuredProjects.map((project, index) => (
+              <a
+                href={`/projects/${project.id}`}
+                class="project-card"
+                style={`animation-delay: ${index * 150}ms`}
+              >
+                <div class="gif-container">
+                  <img
+                    src={staticImages[project.id]}
+                    alt={project.title}
+                    class="project-gif static"
+                  />
+                  <img
+                    src={projectGifs[project.id]}
+                    alt={project.title}
+                    class="project-gif animated"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="project-content">
+                  <h3>{project.title}</h3>
+                  <p class="project-description">{project.description}</p>
+                </div>
+                <div class="border-animation" />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes borderAnimation {
+    0% {
+      clip-path: inset(0 100% 100% 0);
+    }
+    25% {
+      clip-path: inset(0 0 100% 0);
+    }
+    50% {
+      clip-path: inset(0 0 0 0);
+    }
+    75% {
+      clip-path: inset(100% 0 0 0);
+    }
+    100% {
+      clip-path: inset(0 100% 100% 0);
+    }
+  }
+
+  .home {
+    padding: var(--space-xl);
+    padding-top: calc(var(--space-xl) * 2);
+  }
+
+  .content {
+    max-width: min(90vw, 1200px);
+    margin: 0 auto;
+  }
+
+  .intro-block {
+    margin-bottom: calc(var(--space-xl) * 3);
+    max-width: 720px;
+    animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .profile-image {
+    margin-bottom: var(--space-md);
+    animation: slideIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .profile-image img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .profile-image img:hover {
+    transform: scale(1.05);
+  }
+
+  h1 {
+    font-size: var(--text-3xl);
+    line-height: 1.3;
+    color: var(--color-text-primary);
+    font-weight: var(--font-medium);
+    margin-bottom: var(--space-sm);
+    letter-spacing: -0.02em;
+    animation: slideIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
+  }
+
+  p {
+    font-size: var(--text-lg);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    animation: slideIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0.4s;
+    opacity: 0;
+  }
+
+  .projects-container {
+    margin: 0 calc(var(--space-xl) * -1);
+    padding: 0 var(--space-xl);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .projects-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    padding-bottom: var(--space-md);
+  }
+
+  .project-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) both;
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity, box-shadow;
+    cursor:
+      url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 24 24' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12Z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E")
+        16 16,
+      auto;
+  }
+
+  .project-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .border-animation {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-lg);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .project-card:hover .border-animation {
+    opacity: 1;
+    animation: borderAnimation 2s linear infinite;
+  }
+
+  .gif-container {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .project-gif {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+  }
+
+  .project-gif.static {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .project-gif.animated {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+
+  .project-card:hover .project-gif.static {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+
+  .project-card:hover .project-gif.animated {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .project-content {
+    position: relative;
+    padding: var(--space-lg);
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9));
+    transform: translateY(0);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .project-card:hover .project-content {
+    transform: translateY(-4px);
+  }
+
+  .project-card h3 {
+    color: var(--color-text-primary);
+    font-size: var(--text-xl);
+    font-weight: var(--font-medium);
+    margin-bottom: var(--space-xs);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .project-description {
+    color: var(--color-text-secondary);
+    font-size: var(--text-lg);
+    line-height: 1.6;
+    font-family: var(--font-family);
+    transition: opacity 0.6s ease;
+    animation: none;
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .home {
+      padding: var(--space-lg);
+      padding-top: calc(var(--space-xl) * 1.5);
+    }
+
+    .content {
+      max-width: 100%;
+    }
+
+    h1 {
+      font-size: var(--text-2xl);
+    }
+
+    p {
+      font-size: var(--text-base);
+    }
+
+    .profile-image img {
+      width: 60px;
+      height: 60px;
+    }
+
+    .projects-container {
+      margin: 0 calc(var(--space-lg) * -1);
+      padding: 0 var(--space-lg);
+    }
+
+    .projects {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-lg);
+    }
+
+    .project-description {
+      font-size: var(--text-base);
+    }
+  }
+</style>

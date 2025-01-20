@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SubscriptionModules from '../../components/SubscriptionModules.astro';
+import '../../styles/typography.css';
+---
+
+<Layout title="Design Blog Posts">
+    <div class="blogs">
+        <p class="instruction">Select an article from the sidebar to read the full post.</p>
+        <SubscriptionModules />
+    </div>
+</Layout>
+
+<style>
+    .blogs {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 4rem;
+    }
+    .instruction {
+        color: var(--color-text-secondary);
+        font-size: 1.2rem;
+        margin-bottom: var(--space-xl);
+    }
+</style>
