@@ -1,18 +1,56 @@
 ---
+
 ---
+
 <a href="/" class="logo">
-    <img src="/images/logo.png" alt="Logo" class="logo-image">
+  <img
+    src="/images/logo_darkbackground.png"
+    alt="Logo"
+    class="logo-image dark-logo"
+  />
+  <img
+    src="/images/logo_lightbackground.png"
+    alt="Logo"
+    class="logo-image light-logo"
+  />
 </a>
 
 <style>
+  .logo {
+    display: flex;
+    align-items: center;
+    padding: var(--space-md);
+    text-align: left;
+  }
+  .logo-image {
+    width: 200px;
+    height: 70px;
+    border-radius: var(--radius-sm);
+    object-fit: contain;
+  }
+
+  /* Show/hide logos based on theme */
+  .dark-logo {
+    display: none;
+  }
+  .light-logo {
+    display: block;
+  }
+
+  :root.dark-mode .dark-logo {
+    display: block;
+  }
+  :root.dark-mode .light-logo {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
     .logo {
-        display: block;
-        padding: var(--space-md) 0;
-        text-align: left;
+      padding: var(--space-sm);
     }
     .logo-image {
-        width: 120px;
-        height: auto;
-        border-radius: var(--radius-sm);
+      width: 140px;
+      height: 45px;
     }
+  }
 </style>

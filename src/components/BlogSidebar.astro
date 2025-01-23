@@ -1,64 +1,76 @@
 ---
-import { blogs } from '../data/blogs';
-import { isActiveLink } from '../utils/navigation';
+import { blogs } from "../data/blogs";
+import { getUrlFromTitle } from "../utils/urlHelpers";
 
 const allBlogs = blogs.sort((a, b) => a.title.localeCompare(b.title));
+const currentPath = Astro.url.pathname;
+
+// Function to check if a blog is active
+const isBlogActive = (title: string) => {
+  const blogUrl = `/blogs/${getUrlFromTitle(title)}`;
+  return currentPath === blogUrl;
+};
 ---
 
 <aside class="blog-sidebar">
-    <div class="blog-links">
-        {allBlogs.map(blog => {
-            const href = `/blogs/${blog.id}`;
-            return (
-                <a href={href} class={`blog-link ${isActiveLink(href) ? 'active' : ''}`}>
-                    <span class="blog-dot">•</span>
-                    {blog.title}
-                </a>
-            );
-        })}
-    </div>
+  <div class="blog-links">
+    {
+      allBlogs.map((blog) => {
+        const href = `/blogs/${getUrlFromTitle(blog.title)}`;
+        return (
+          <a
+            href={href}
+            class={`blog-link ${isBlogActive(blog.title) ? "active" : ""}`}
+          >
+            <span class="blog-dot">•</span>
+            {blog.title}
+          </a>
+        );
+      })
+    }
+  </div>
 </aside>
 
 <style>
-    .blog-sidebar {
-        width: 400px;
-        background: var(--color-bg-primary);
-        padding: var(--space-md);
-        position: fixed;
-        height: 100vh;
-        left: 250px;
-        border-right: 1px solid var(--color-bg-secondary);
-    }
-    .blog-links {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-xs);
-        padding-top: var(--space-md);
-    }
-    .blog-link {
-        display: flex;
-        align-items: center;
-        color: var(--color-text-secondary);
-        text-decoration: none;
-        padding: var(--space-sm) var(--space-md);
-        border-radius: 6px;
-        transition: var(--transition-default);
-        font-size: var(--text-lg);
-        font-weight: 500;
-    }
-    .blog-dot {
-        opacity: 0;
-        margin-right: var(--space-sm);
-        transition: var(--transition-default);
-    }
-    .blog-link:hover,
-    .blog-link.active {
-        color: var(--color-text-primary);
-        background-color: var(--color-bg-secondary);
-    }
-    .blog-link:hover .blog-dot,
-    .blog-link.active .blog-dot {
-        opacity: 1;
-        color: var(--color-accent);
-    }
+  .blog-sidebar {
+    width: 400px;
+    background: var(--color-bg-primary);
+    padding: var(--space-md);
+    position: fixed;
+    height: 100vh;
+    left: 250px;
+    border-right: 1px solid var(--color-bg-secondary);
+  }
+  .blog-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-top: var(--space-md);
+  }
+  .blog-link {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 6px;
+    transition: var(--transition-default);
+    font-size: var(--text-lg);
+    font-weight: 500;
+  }
+  .blog-dot {
+    opacity: 0;
+    margin-right: var(--space-sm);
+    transition: var(--transition-default);
+  }
+  .blog-link:hover,
+  .blog-link.active {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-secondary);
+  }
+  .blog-link:hover .blog-dot,
+  .blog-link.active .blog-dot {
+    opacity: 1;
+    color: var(--color-accent);
+  }
 </style>

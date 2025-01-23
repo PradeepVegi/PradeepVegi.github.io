@@ -1,62 +1,69 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { books } from '../../data/books';
+import Layout from "../../layouts/Layout.astro";
+import { books } from "../../data/books";
 
-const isMobile = Astro.request.headers.get('user-agent')?.includes('Mobile') ?? false;
+const isMobile =
+  Astro.request.headers.get("user-agent")?.includes("Mobile") ?? false;
 ---
 
 <Layout title="Bookshelf">
-    <div class="bookshelf">
-        {isMobile ? (
-            <div class="mobile-list">
-                {books.map(book => (
-                    <a href={`/bookshelf/${book.id}`} class="book-link">
-                        <h3>{book.title}</h3>
-                        <p class="author">by {book.author}</p>
-                    </a>
-                ))}
-            </div>
-        ) : (
-            <p class="instruction">Select a book from the sidebar to view my highlights.</p>
-        )}
+  <div class="bookshelf">
+    <div class="book-list">
+      {
+        books.map((book) => (
+          <a href={`/bookshelf/${book.id}`} class="book-link">
+            <h3>{book.title}</h3>
+            <p class="author">by {book.author}</p>
+          </a>
+        ))
+      }
     </div>
+  </div>
 </Layout>
 
 <style>
-    .bookshelf {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: var(--space-lg);
+  .bookshelf {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-lg);
+  }
+  .book-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding-top: var(--space-lg);
+  }
+  .book-link {
+    text-decoration: none;
+    padding: var(--space-lg);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    transition: transform 0.2s ease;
+  }
+  .book-link:hover {
+    transform: translateY(-2px);
+  }
+  .book-link h3 {
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+  }
+  .author {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  @media (min-width: 769px) {
+    .book-list {
+      display: none;
     }
-    .instruction {
-        color: var(--color-text-secondary);
-        font-size: 1.2rem;
-        text-align: center;
-        padding-top: 4rem;
+    .bookshelf::before {
+      content: "Select a book from the sidebar to view my highlights.";
+      display: block;
+      color: var(--color-text-secondary);
+      font-size: 1.2rem;
+      text-align: center;
+      padding-top: 4rem;
     }
-    .mobile-list {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-md);
-        padding-top: var(--space-lg);
-    }
-    .book-link {
-        text-decoration: none;
-        padding: var(--space-lg);
-        background: var(--color-bg-secondary);
-        border-radius: var(--radius-md);
-        transition: transform 0.2s ease;
-    }
-    .book-link:hover {
-        transform: translateY(-2px);
-    }
-    .book-link h3 {
-        color: var(--color-text-primary);
-        margin-bottom: var(--space-sm);
-    }
-    .author {
-        color: var(--color-text-secondary);
-        font-size: 0.9rem;
-        font-style: italic;
-    }
+  }
 </style>

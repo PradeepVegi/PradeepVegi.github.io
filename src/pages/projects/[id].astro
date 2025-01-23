@@ -1,66 +1,88 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { projects } from '../../data/projects';
-import { 
-    project1Sections,
-    project2Sections,
-    project3Sections,
-    project4Sections
-} from '../../data/projectSections';
-import ProjectSection from '../../components/ProjectSection.astro';
-import '../../styles/typography.css';
+import Layout from "../../layouts/Layout.astro";
+import { projects } from "../../data/projects";
+import {
+  project1Sections,
+  project2Sections,
+  project3Sections,
+  project4Sections,
+} from "../../data/projectSections";
+import ProjectSection from "../../components/ProjectSection.astro";
+import "../../styles/typography.css";
 
 export function getStaticPaths() {
-    return projects.map(project => ({
-        params: { id: project.id }
-    }));
+  return projects.map((project) => ({
+    params: { id: project.id },
+  }));
 }
 
 const { id } = Astro.params;
-const project = projects.find(p => p.id === id);
+const project = projects.find((p) => p.id === id);
 
 const projectSections = {
-    "1": project1Sections,
-    "2": project2Sections,
-    "3": project3Sections,
-    "4": project4Sections
+  "1": project1Sections,
+  "2": project2Sections,
+  "3": project3Sections,
+  "4": project4Sections,
 };
 
 const sections = projectSections[id];
 ---
 
 <Layout title={project.title}>
-    <div class="project">
-        <h1 class="project-title">{project.title}</h1>
-        <p class="project-description">{project.description}</p>
-        
-        <div class="sections">
-            {sections.map(section => (
-                <ProjectSection {...section} />
-            ))}
-        </div>
+  <div class="project">
+    <h1 class="project-title">{project.title}</h1>
+    <p class="project-description">{project.fullDescription}</p>
+
+    <div class="sections">
+      {sections.map((section) => <ProjectSection {...section} />)}
     </div>
+  </div>
 </Layout>
 
 <style>
+  .project {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  .project-title {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.02em;
+  }
+
+  .project-description {
+    font-size: var(--text-xl);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+  }
+
+  .sections {
+    margin-top: var(--space-xl);
+  }
+
+  @media (max-width: 768px) {
     .project {
-        max-width: 800px;
-        margin: 0 auto;
+      padding: 0 var(--space-md);
     }
+
     .project-title {
-        font-size: var(--text-4xl);
-        font-weight: var(--font-bold);
-        color: var(--color-text-primary);
-        margin-bottom: var(--space-md);
-        letter-spacing: -0.02em;
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-sm);
     }
+
     .project-description {
-        font-size: var(--text-xl);
-        line-height: 1.6;
-        color: var(--color-text-secondary);
-        margin-bottom: var(--space-xl);
+      font-size: var(--text-lg);
+      margin-bottom: var(--space-lg);
     }
+
     .sections {
-        margin-top: var(--space-xl);
+      margin-top: var(--space-lg);
     }
+  }
 </style>

@@ -1,0 +1,32 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BlogPost from "../../components/BlogPost.astro";
+import { blogContents } from "../../data/blogContent";
+import { getUrlFromTitle } from "../../utils/urlHelpers";
+
+export function getStaticPaths() {
+  return blogContents.map((blog) => ({
+    params: { slug: getUrlFromTitle(blog.title) },
+  }));
+}
+
+const { slug } = Astro.params;
+const blog = blogContents.find((b) => getUrlFromTitle(b.title) === slug);
+
+if (!blog) {
+  return Astro.redirect("/404");
+}
+---
+
+<Layout title={blog.title}>
+  <div class="blog-container">
+    <BlogPost {...blog} />
+  </div>
+</Layout>
+
+<style>
+  .blog-container {
+    max-width: 1000px;
+    padding: 0 var(--space-lg);
+  }
+</style>

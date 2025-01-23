@@ -1,0 +1,32 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BookHighlights from "../../components/BookHighlights.astro";
+import { books } from "../../data/books";
+import { getUrlFromTitle } from "../../utils/urlHelpers";
+
+export function getStaticPaths() {
+  return books.map((book) => ({
+    params: { slug: getUrlFromTitle(book.title) },
+  }));
+}
+
+const { slug } = Astro.params;
+const book = books.find((b) => getUrlFromTitle(b.title) === slug);
+
+if (!book) {
+  return Astro.redirect("/404");
+}
+---
+
+<Layout title={book.title}>
+  <div class="book-container">
+    <BookHighlights {...book} />
+  </div>
+</Layout>
+
+<style>
+  .book-container {
+    max-width: 1000px;
+    padding: 0 var(--space-lg);
+  }
+</style>

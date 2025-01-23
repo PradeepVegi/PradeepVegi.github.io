@@ -1,62 +1,63 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { blogContents } from '../../data/blogContent';
+import Layout from "../../layouts/Layout.astro";
+import { blogContents } from "../../data/blogContent";
+import { getUrlFromTitle } from "../../utils/urlHelpers";
 
-const isMobile = Astro.request.headers.get('user-agent')?.includes('Mobile') ?? false;
+const isMobile =
+  Astro.request.headers.get("user-agent")?.includes("Mobile") ?? false;
 ---
 
 <Layout title="Blog Posts">
-    <div class="blogs">
-        {isMobile ? (
-            <div class="mobile-list">
-                {blogContents.map(blog => (
-                    <a href={`/blogs/${blog.id}`} class="blog-link">
-                        <h3>{blog.title}</h3>
-                        <p class="category">{blog.category}</p>
-                    </a>
-                ))}
-            </div>
-        ) : (
-            <p class="instruction">Select an article from the sidebar to read the full post.</p>
-        )}
+  <div class="blogs">
+    <div class="blog-list">
+      {
+        blogContents.map((blog) => (
+          <a href={`/blogs/${getUrlFromTitle(blog.title)}`} class="blog-link">
+            <h3>{blog.title}</h3>
+          </a>
+        ))
+      }
     </div>
+  </div>
 </Layout>
 
 <style>
-    .blogs {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: var(--space-lg);
+  .blogs {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-lg);
+  }
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding-top: var(--space-lg);
+  }
+  .blog-link {
+    text-decoration: none;
+    padding: var(--space-lg);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    transition: transform 0.2s ease;
+  }
+  .blog-link:hover {
+    transform: translateY(-2px);
+  }
+  .blog-link h3 {
+    color: var(--color-text-primary);
+  }
+
+  @media (min-width: 769px) {
+    .blog-list {
+      display: none;
     }
-    .instruction {
-        color: var(--color-text-secondary);
-        font-size: 1.2rem;
-        text-align: center;
-        padding-top: 4rem;
+    .blogs::before {
+      content: "Select an article from the sidebar to read the full post.";
+      display: block;
+      color: var(--color-text-secondary);
+      font-size: 1.2rem;
+      text-align: center;
+      padding-top: 4rem;
     }
-    .mobile-list {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-md);
-        padding-top: var(--space-lg);
-    }
-    .blog-link {
-        text-decoration: none;
-        padding: var(--space-lg);
-        background: var(--color-bg-secondary);
-        border-radius: var(--radius-md);
-        transition: transform 0.2s ease;
-    }
-    .blog-link:hover {
-        transform: translateY(-2px);
-    }
-    .blog-link h3 {
-        color: var(--color-text-primary);
-        margin-bottom: var(--space-sm);
-    }
-    .category {
-        color: var(--color-text-secondary);
-        font-size: 0.9rem;
-        text-transform: uppercase;
-    }
+  }
 </style>
