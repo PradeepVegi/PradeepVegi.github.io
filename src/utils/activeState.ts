@@ -2,12 +2,13 @@
 export function isActiveProject(projectId: string): boolean {
   if (typeof window === 'undefined') return false;
   
-  // Get the current path and handle GitHub Pages deployment
+  // Get the current path using the base URL from import.meta.env
+  const base = import.meta.env.BASE_URL;
   let currentPath = window.location.pathname;
-  const repoName = '/your-repo-name'; // Replace with your actual repo name
   
-  if (currentPath.startsWith(repoName)) {
-    currentPath = currentPath.slice(repoName.length);
+  // Remove the base path if it exists
+  if (base !== '/' && currentPath.startsWith(base)) {
+    currentPath = currentPath.slice(base.length);
   }
   
   // Remove trailing slashes
@@ -28,12 +29,13 @@ export function isActiveProject(projectId: string): boolean {
 export function isActiveBlogCategory(category: string): boolean {
   if (typeof window === 'undefined') return false;
   
-  // Get the current path and handle GitHub Pages deployment
+  // Get the current path using the base URL from import.meta.env
+  const base = import.meta.env.BASE_URL;
   let currentPath = window.location.pathname;
-  const repoName = '/your-repo-name'; // Replace with your actual repo name
   
-  if (currentPath.startsWith(repoName)) {
-    currentPath = currentPath.slice(repoName.length);
+  // Remove the base path if it exists
+  if (base !== '/' && currentPath.startsWith(base)) {
+    currentPath = currentPath.slice(base.length);
   }
   
   // Remove trailing slashes
@@ -62,12 +64,13 @@ export function isActiveBlogCategory(category: string): boolean {
 export function getCurrentProjectId(): string | null {
   if (typeof window === 'undefined') return null;
   
-  // Get the current path and handle GitHub Pages deployment
+  // Get the current path using the base URL from import.meta.env
+  const base = import.meta.env.BASE_URL;
   let currentPath = window.location.pathname;
-  const repoName = '/your-repo-name'; // Replace with your actual repo name
   
-  if (currentPath.startsWith(repoName)) {
-    currentPath = currentPath.slice(repoName.length);
+  // Remove the base path if it exists
+  if (base !== '/' && currentPath.startsWith(base)) {
+    currentPath = currentPath.slice(base.length);
   }
   
   const match = currentPath.match(/^\/projects\/(\d+)/);
@@ -78,12 +81,13 @@ export function getCurrentProjectId(): string | null {
 export function getCurrentBlogCategory(): string | null {
   if (typeof window === 'undefined') return null;
   
-  // Get the current path and handle GitHub Pages deployment
+  // Get the current path using the base URL from import.meta.env
+  const base = import.meta.env.BASE_URL;
   let currentPath = window.location.pathname;
-  const repoName = '/your-repo-name'; // Replace with your actual repo name
   
-  if (currentPath.startsWith(repoName)) {
-    currentPath = currentPath.slice(repoName.length);
+  // Remove the base path if it exists
+  if (base !== '/' && currentPath.startsWith(base)) {
+    currentPath = currentPath.slice(base.length);
   }
   
   if (currentPath === '/blogs/design') return 'design';

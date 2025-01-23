@@ -2,13 +2,13 @@
 export function getCurrentPath() {
   if (typeof window === 'undefined') return '';
   
-  // Remove any trailing slashes and get the path
-  const path = window.location.pathname.replace(/\/$/, '');
+  // Get the base URL from import.meta.env
+  const base = import.meta.env.BASE_URL;
+  const path = window.location.pathname;
   
-  // If deployed to GitHub Pages, remove the repository name from the path
-  const repoName = '/your-repo-name'; // Replace with your actual repo name
-  if (path.startsWith(repoName)) {
-    return path.slice(repoName.length);
+  // Remove the base path if it exists at the start of the pathname
+  if (base !== '/' && path.startsWith(base)) {
+    return path.slice(base.length);
   }
   
   return path;
