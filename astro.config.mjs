@@ -18,4 +18,5 @@ export default defineConfig({
     site: BASE_URL,
     // integrations: [tailwind(), sitemap()],
     site: 'https://PradeepVegi.github.io',
+    base:  "/PradeepVegi.github.io",
 });
