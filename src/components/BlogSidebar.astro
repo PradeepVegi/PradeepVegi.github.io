@@ -1,6 +1,6 @@
 ---
-import { blogs } from "../data/blogs";
-import { getUrlFromTitle } from "../utils/urlHelpers";
+import { blogs } from "/src/data/blogs.ts";
+import { getUrlFromTitle } from "/src/utils/urlHelpers.ts";
 
 const allBlogs = blogs.sort((a, b) => a.title.localeCompare(b.title));
 const currentPath = Astro.url.pathname;

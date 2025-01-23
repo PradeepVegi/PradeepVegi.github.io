@@ -1,89 +1,91 @@
 ---
-import { 
-    project1Sections,
-    project2Sections,
-    project3Sections,
-    project4Sections
-} from '../data/projectSections';
+import {
+  project1Sections,
+  project2Sections,
+  project3Sections,
+  project4Sections,
+} from "/src/data/projectSections.ts";
 
 const currentPath = Astro.url.pathname;
-const projectId = currentPath.split('/').pop();
+const projectId = currentPath.split("/").pop();
 
 const projectSections = {
-    "1": project1Sections,
-    "2": project2Sections,
-    "3": project3Sections,
-    "4": project4Sections
+  "1": project1Sections,
+  "2": project2Sections,
+  "3": project3Sections,
+  "4": project4Sections,
 };
 
 const sections = projectSections[projectId];
 ---
 
 <aside class="project-sidebar">
-    <div class="project-links">
-        {sections ? (
-            sections.map(section => (
-                <a href={`#${section.id}`} class="project-link">
-                    <span class="project-dot">•</span>
-                    {section.title}
-                </a>
-            ))
-        ) : (
-            <p class="empty-state">No sections available</p>
-        )}
-    </div>
+  <div class="project-links">
+    {
+      sections ? (
+        sections.map((section) => (
+          <a href={`#${section.id}`} class="project-link">
+            <span class="project-dot">•</span>
+            {section.title}
+          </a>
+        ))
+      ) : (
+        <p class="empty-state">No sections available</p>
+      )
+    }
+  </div>
 </aside>
 
 <script>
-    import { initializeSectionObserver } from '../utils/sectionObserver';
-    initializeSectionObserver();
+  import { initializeSectionObserver } from "../utils/sectionObserver";
+  initializeSectionObserver();
 </script>
 
 <style>
-    .project-sidebar {
-        width: 300px;
-        background: var(--color-bg-primary);
-        padding: var(--space-md);
-        position: fixed;
-        height: 100vh;
-        left: 250px;
-        border-right: 1px solid var(--color-bg-secondary);
-    }
-    .project-links {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-xs);
-        padding-top: var(--space-md);
-    }
-    .project-link {
-        display: flex;
-        align-items: center;
-        color: var(--color-text-secondary);
-        text-decoration: none;
-        padding: var(--space-sm) var(--space-md);
-        border-radius: 6px;
-        transition: var(--transition-default);
-        font-size: var(--text-lg);
-        font-weight: 500;
-    }
-    .project-dot {
-        opacity: 0;
-        margin-right: var(--space-sm);
-        transition: var(--transition-default);
-    }
-    .project-link:hover,
-    .project-link.active {
-        color: var(--color-text-primary);
-        background-color: var(--color-bg-secondary);
-    }
-    .project-link:hover .project-dot,
-    .project-link.active .project-dot {
-        opacity: 1;
-        color: var(--color-accent);
-    }
-    .empty-state {
-        color: var(--color-text-secondary);
-        font-size: var(--text-lg);
-        padding: var(--space-sm) var(--space-md);
-    }
+  .project-sidebar {
+    width: 300px;
+    background: var(--color-bg-primary);
+    padding: var(--space-md);
+    position: fixed;
+    height: 100vh;
+    left: 250px;
+    border-right: 1px solid var(--color-bg-secondary);
+  }
+  .project-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-top: var(--space-md);
+  }
+  .project-link {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 6px;
+    transition: var(--transition-default);
+    font-size: var(--text-lg);
+    font-weight: 500;
+  }
+  .project-dot {
+    opacity: 0;
+    margin-right: var(--space-sm);
+    transition: var(--transition-default);
+  }
+  .project-link:hover,
+  .project-link.active {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-secondary);
+  }
+  .project-link:hover .project-dot,
+  .project-link.active .project-dot {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+  .empty-state {
+    color: var(--color-text-secondary);
+    font-size: var(--text-lg);
+    padding: var(--space-sm) var(--space-md);
+  }
 </style>
