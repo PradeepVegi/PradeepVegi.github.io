@@ -4,10 +4,13 @@ import {
   project2Sections,
   project3Sections,
   project4Sections,
-} from "data:/src/data/projectSections.ts";
+} from "/src/data/projectSections.ts";
 
 const currentPath = Astro.url.pathname;
-const projectId = currentPath.split("/").pop();
+// const projectId = currentPath.split("/").pop();
+const basePath = new URL(Astro.site).pathname.replace(/\/$/, ""); // Extract base path dynamically
+const normalizedPath = currentPath.replace(basePath, ""); // Remove the base path
+const projectId = normalizedPath.split("/").pop(); // Extract the projectId
 
 const projectSections = {
   "1": project1Sections,
