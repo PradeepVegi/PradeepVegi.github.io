@@ -1,22 +1,35 @@
 // Get current path segments
 export function getCurrentPath() {
   if (typeof window === 'undefined') return '';
-  return window.location.pathname;
+  
+  // Remove any trailing slashes and get the path
+  const path = window.location.pathname.replace(/\/$/, '');
+  
+  // If deployed to GitHub Pages, remove the repository name from the path
+  const repoName = '/your-repo-name'; // Replace with your actual repo name
+  if (path.startsWith(repoName)) {
+    return path.slice(repoName.length);
+  }
+  
+  return path;
 }
 
 // Check if a link matches the current path or its parent path
 export function isActiveLink(href: string): boolean {
   const currentPath = getCurrentPath();
   
+  // Normalize paths by removing trailing slashes
+  const normalizedHref = href.replace(/\/$/, '');
+  const normalizedCurrentPath = currentPath.replace(/\/$/, '');
+  
   // Handle blog category pages
-  if (href.startsWith('/blogs/')) {
-    const category = href.split('/')[2];
+  if (normalizedHref.startsWith('/blogs/')) {
+    const category = normalizedHref.split('/')[2];
     if (category === 'design' || category === 'ux-ai') {
       // Check if we're on a blog post that belongs to this category
-      const blogPostMatch = currentPath.match(/^\/blogs\/(\d+)$/);
+      const blogPostMatch = normalizedCurrentPath.match(/^\/blogs\/(\d+)$/);
       if (blogPostMatch) {
         const blogId = blogPostMatch[1];
-        // This would be replaced with actual blog data lookup
         const blogCategories = {
           '1': 'design',
           '2': 'ux-ai',
@@ -29,10 +42,10 @@ export function isActiveLink(href: string): boolean {
   }
 
   // Exact match
-  if (currentPath === href) return true;
+  if (normalizedCurrentPath === normalizedHref) return true;
   
   // Parent path match (for nested routes)
-  if (href !== '/' && currentPath.startsWith(href)) return true;
+  if (normalizedHref !== '/' && normalizedCurrentPath.startsWith(normalizedHref)) return true;
   
   return false;
 }
@@ -40,8 +53,15 @@ export function isActiveLink(href: string): boolean {
 // Check if a project is currently active
 export function isActiveProject(href: string): boolean {
   const currentPath = getCurrentPath();
-  const projectMatch = href.match(/^\/projects\/(\d+)$/);
+  
+  // Normalize paths
+  const normalizedHref = href.replace(/\/$/, '');
+  const normalizedCurrentPath = currentPath.replace(/\/$/, '');
+  
+  const projectMatch = normalizedHref.match(/^\/projects\/(\d+)$/);
   if (!projectMatch) return false;
   
-  return currentPath === href;
+  // Check for exact match or if we're in a section of this project
+  return normalizedCurrentPath === normalizedHref || 
+         normalizedCurrentPath.startsWith(`${normalizedHref}/`);
 }

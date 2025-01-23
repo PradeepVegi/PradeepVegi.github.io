@@ -19,6 +19,7 @@ export function getStaticPaths() {
 const { id } = Astro.params;
 const project = projects.find((p) => p.id === id);
 
+// Create the sections mapping
 const projectSections = {
   "1": project1Sections,
   "2": project2Sections,
@@ -26,7 +27,13 @@ const projectSections = {
   "4": project4Sections,
 };
 
-const sections = projectSections[id];
+// Ensure the id exists and is a valid key
+const validIds = ["1", "2", "3", "4"];
+const sections = validIds.includes(id) ? projectSections[id] : [];
+
+if (!project || !sections) {
+  return Astro.redirect("/404");
+}
 ---
 
 <Layout title={project.title}>
@@ -35,7 +42,13 @@ const sections = projectSections[id];
     <p class="project-description">{project.fullDescription}</p>
 
     <div class="sections">
-      {sections.map((section) => <ProjectSection {...section} />)}
+      {
+        sections && sections.length > 0 ? (
+          sections.map((section) => <ProjectSection {...section} />)
+        ) : (
+          <p class="no-sections">No sections available for this project.</p>
+        )
+      }
     </div>
   </div>
 </Layout>
@@ -44,7 +57,7 @@ const sections = projectSections[id];
   .project {
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 var(--space-lg);
+    padding: var(--space-xl) var(--space-lg);
   }
 
   .project-title {
@@ -66,9 +79,15 @@ const sections = projectSections[id];
     margin-top: var(--space-xl);
   }
 
+  .no-sections {
+    text-align: center;
+    color: var(--color-text-secondary);
+    padding: var(--space-xl) 0;
+  }
+
   @media (max-width: 768px) {
     .project {
-      padding: 0 var(--space-md);
+      padding: var(--space-xl) var(--space-md);
     }
 
     .project-title {

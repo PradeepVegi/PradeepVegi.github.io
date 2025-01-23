@@ -1,7 +1,17 @@
 // Utility to manage active states
 export function isActiveProject(projectId: string): boolean {
   if (typeof window === 'undefined') return false;
-  const currentPath = window.location.pathname;
+  
+  // Get the current path and handle GitHub Pages deployment
+  let currentPath = window.location.pathname;
+  const repoName = '/your-repo-name'; // Replace with your actual repo name
+  
+  if (currentPath.startsWith(repoName)) {
+    currentPath = currentPath.slice(repoName.length);
+  }
+  
+  // Remove trailing slashes
+  currentPath = currentPath.replace(/\/$/, '');
   
   // Check for exact project page match
   if (currentPath === `/projects/${projectId}`) return true;
@@ -17,7 +27,17 @@ export function isActiveProject(projectId: string): boolean {
 
 export function isActiveBlogCategory(category: string): boolean {
   if (typeof window === 'undefined') return false;
-  const currentPath = window.location.pathname;
+  
+  // Get the current path and handle GitHub Pages deployment
+  let currentPath = window.location.pathname;
+  const repoName = '/your-repo-name'; // Replace with your actual repo name
+  
+  if (currentPath.startsWith(repoName)) {
+    currentPath = currentPath.slice(repoName.length);
+  }
+  
+  // Remove trailing slashes
+  currentPath = currentPath.replace(/\/$/, '');
   
   // Check for exact category match
   if (currentPath === `/blogs/${category}`) return true;
@@ -41,19 +61,35 @@ export function isActiveBlogCategory(category: string): boolean {
 // Get the current project ID from the URL
 export function getCurrentProjectId(): string | null {
   if (typeof window === 'undefined') return null;
-  const match = window.location.pathname.match(/^\/projects\/(\d+)/);
+  
+  // Get the current path and handle GitHub Pages deployment
+  let currentPath = window.location.pathname;
+  const repoName = '/your-repo-name'; // Replace with your actual repo name
+  
+  if (currentPath.startsWith(repoName)) {
+    currentPath = currentPath.slice(repoName.length);
+  }
+  
+  const match = currentPath.match(/^\/projects\/(\d+)/);
   return match ? match[1] : null;
 }
 
 // Get the current blog category from the URL
 export function getCurrentBlogCategory(): string | null {
   if (typeof window === 'undefined') return null;
-  const path = window.location.pathname;
   
-  if (path === '/blogs/design') return 'design';
-  if (path === '/blogs/ux-ai') return 'ux-ai';
+  // Get the current path and handle GitHub Pages deployment
+  let currentPath = window.location.pathname;
+  const repoName = '/your-repo-name'; // Replace with your actual repo name
   
-  const blogPostMatch = path.match(/^\/blogs\/(\d+)$/);
+  if (currentPath.startsWith(repoName)) {
+    currentPath = currentPath.slice(repoName.length);
+  }
+  
+  if (currentPath === '/blogs/design') return 'design';
+  if (currentPath === '/blogs/ux-ai') return 'ux-ai';
+  
+  const blogPostMatch = currentPath.match(/^\/blogs\/(\d+)$/);
   if (blogPostMatch) {
     const blogId = blogPostMatch[1];
     const blogCategories = {
