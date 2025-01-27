@@ -1,7 +1,7 @@
 ---
-import Logo from "./Logo.astro";
-import NavSection from "./NavSection.astro";
-import ThemeToggle from "./ThemeToggle.astro";
+import Logo from "/src/components/Navigation/Logo.astro";
+import NavSection from "/src/components/Navigation/NavSection.astro";
+import ThemeToggle from "/src/components/Navigation/ThemeToggle.astro";
 
 const projectItems = [
   { href: "/projects/1", label: "Single Take" },
@@ -15,9 +15,12 @@ const projectItems = [
 ];
 
 const miscItems = [
-  { href: "/side-projects", label: "Side Projects" },
-  { href: "/blogs", label: "Blogs" },
-  { href: "/bookshelf", label: "Book Reviews" },
+  {
+    href: "/side-projects",
+    label: "Side Projects",
+  },
+  { href: "https://PradeepVegi.github.io/blogs", label: "Blogs" },
+  { href: "https://PradeepVegi.github.io/bookshelf", label: "Book Reviews" },
   { href: "https://example.com/bio", label: "Bio", isExternal: true },
 ];
 

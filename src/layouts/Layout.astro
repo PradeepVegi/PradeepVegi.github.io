@@ -12,13 +12,14 @@ interface Props {
 
 const { title } = Astro.props;
 const currentPath = Astro.url.pathname;
+console.log("Current path:", currentPath);
 
 // Desktop-specific logic
 const showBlogSidebar = currentPath.startsWith("/blogs");
 const showBookSidebar = currentPath.startsWith("/bookshelf");
 const showSideProjectSidebar = currentPath.startsWith("/side-projects");
 const showProjectSidebar = currentPath.startsWith("/projects");
-
+console.log("Show project sidebar:", showProjectSidebar);
 // Show back button on all pages except home and project pages
 const showBackButton =
   currentPath !== "/" && !currentPath.startsWith("/projects");
@@ -35,7 +36,7 @@ const getBackUrl = (path: string) => {
 const getBackText = (path: string) => {
   if (path.startsWith("/blogs/")) return "All Posts";
   if (path.startsWith("/bookshelf/")) return "All Books";
-  if (path.startsWith("/side-projects/")) return "All Side Projects";
+  if (path.startsWith("/side-projects/")) return "All Projects";
   return "Home";
 };
 ---

@@ -1,6 +1,4 @@
 ---
-console.log("Script is running!");
-
 import {
   project1Sections,
   project2Sections,
@@ -9,10 +7,8 @@ import {
 } from "/src/data/projectSections.ts";
 
 const currentPath = Astro.url.pathname;
-// const projectId = currentPath.split("/").pop();
-const basePath = new URL(Astro.site).pathname.replace(/\/$/, ""); // Extract base path dynamically
-const normalizedPath = currentPath.replace(basePath, ""); // Remove the base path
-const projectId = normalizedPath.split("/").pop(); // Extract the projectId
+const pathParts = currentPath.split("/");
+const projectId = pathParts[pathParts.indexOf("projects") + 1];
 
 const projectSections = {
   "1": project1Sections,
@@ -21,16 +17,29 @@ const projectSections = {
   "4": project4Sections,
 };
 
+console.log({
+  currentPath,
+  pathParts,
+  projectId,
+  hasProject1: !!project1Sections,
+  hasProject2: !!project2Sections,
+  hasProject3: !!project3Sections,
+  hasProject4: !!project4Sections,
+  projectSectionsKeys: Object.keys(projectSections),
+});
+
 const sections = projectSections[projectId];
-console.log("Base Path:", basePath);
-console.log("Normalized Path:", normalizedPath);
-console.log("Project ID:", projectId);
+console.log("Selected sections:", sections);
+
+if (!sections) {
+  console.error(`No sections found for project ID: ${projectId}`);
+}
 ---
 
 <aside class="project-sidebar">
   <div class="project-links">
     {
-      sections ? (
+      sections && sections.length > 0 ? (
         sections.map((section) => (
           <a href={`#${section.id}`} class="project-link">
             <span class="project-dot">•</span>
@@ -38,7 +47,10 @@ console.log("Project ID:", projectId);
           </a>
         ))
       ) : (
-        <p class="empty-state">No sections available</p>
+        <p class="empty-state">
+          No sections available for project {projectId}
+          (Path: {currentPath})
+        </p>
       )
     }
   </div>
